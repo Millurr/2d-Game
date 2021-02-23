@@ -4,6 +4,14 @@ using UnityEngine;
 
 namespace TwoD
 {
+
+    public enum IdleDirections
+    {
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN
+    }
   
     public class PlayerController : MonoBehaviour
     {
@@ -24,6 +32,8 @@ namespace TwoD
         CharacterController controller;
 
         public Transform LookAtObj;
+
+        IdleDirections idleDir = IdleDirections.DOWN;
 
         Vector2 move;
 
@@ -48,25 +58,66 @@ namespace TwoD
         void MoveCharacter()
         {
             controller.Move(move * character.Speed * Time.fixedDeltaTime);
-            LookAtDirection(move.x);
+            LookAtDirection();
+            SetIdleDirections();
         }
 
         // Rotate the character depending on if it's moving left or right
-        void LookAtDirection(float xDirection)
+        void LookAtDirection()
         {
             animator.SetFloat("Vertical", move.y);
             animator.SetFloat("Speed", move.sqrMagnitude);
-            if (xDirection < 0)
-            {
-                sr.flipX = true;
-                animator.SetFloat("Horizontal", xDirection);
-            }
-            if (xDirection > 0)
+
+            if (move.x > -1f && sr.flipX == true)
             {
                 sr.flipX = false;
-                animator.SetFloat("Horizontal", xDirection);
+            }
+
+            if (move.y > 0)
+            {
+                idleDir = IdleDirections.UP;
+            }
+
+            if (move.y < 0)
+            {
+                idleDir = IdleDirections.DOWN;
+            }
+
+            if (move.x < 0)
+            {
+                sr.flipX = true;
+                idleDir = IdleDirections.LEFT;
+                animator.SetFloat("Horizontal", move.x);
             }
             
+            if (move.x > 0)
+            {
+                idleDir = IdleDirections.RIGHT;
+                animator.SetFloat("Horizontal", move.x);
+            }
+        }
+
+        void SetIdleDirections()
+        {
+            switch (idleDir)
+            {
+                case IdleDirections.UP:
+                    animator.SetFloat("FacingDir", 2f);
+                    break;
+                case IdleDirections.DOWN:
+                    animator.SetFloat("FacingDir", 0f);
+                    break;
+                case IdleDirections.LEFT:
+                    sr.flipX = true;
+                    animator.SetFloat("FacingDir", 1f);
+                    break;
+                case IdleDirections.RIGHT:
+                    sr.flipX = false;
+                    animator.SetFloat("FacingDir", 1f);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
