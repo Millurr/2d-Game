@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,23 +16,16 @@ namespace TwoD
   
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField]
-        int health = 100;
 
         [SerializeField]
-        int stamina = 100;
-
-        [SerializeField]
-        int speed = 5;
+        float speed = 5;
 
         public SpriteRenderer sr;
-
+        
         public Animator animator;
 
         Character character;
         CharacterController controller;
-
-        public Transform LookAtObj;
 
         IdleDirections idleDir = IdleDirections.DOWN;
 
@@ -40,7 +34,6 @@ namespace TwoD
         // Start is called before the first frame update
         void Start()
         {
-            character = new Character(health, stamina, speed);
             controller = GetComponent<CharacterController>();
         }
 
@@ -57,7 +50,7 @@ namespace TwoD
 
         void MoveCharacter()
         {
-            controller.Move(move * character.Speed * Time.fixedDeltaTime);
+            controller.Move(move * speed * Time.fixedDeltaTime);
             LookAtDirection();
             SetIdleDirections();
         }
@@ -85,7 +78,15 @@ namespace TwoD
 
             if (move.x < 0)
             {
-                sr.flipX = true;
+                if (move.y.Equals(0f))
+                {
+                    sr.flipX = true;
+                }
+                else
+                {
+                    sr.flipX = false;
+                }
+                
                 idleDir = IdleDirections.LEFT;
                 animator.SetFloat("Horizontal", move.x);
             }
