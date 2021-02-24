@@ -49,14 +49,9 @@ namespace TwoD
                 UseMana(10 * intelegenceMultiplier);
             }
 
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                LoseStamina(1 * enduranceMultiplier);
-                sprintCoolDown = 2f;
-            }
-
             if (Input.GetKeyUp(KeyCode.LeftShift))
             {
+                sprintCoolDown = 2f;
                 isCoolingDown = true;
             }
 
@@ -105,6 +100,21 @@ namespace TwoD
         {
             currentMana -= mana;
             mb.SetMana(currentMana);
+        }
+
+        public float GetHealth()
+        {
+            return currentHealth;
+        }
+
+        public float GetStamina()
+        {
+            return currentStamina;
+        }
+
+        public float GetMana()
+        {
+            return currentMana;
         }
     }
 }

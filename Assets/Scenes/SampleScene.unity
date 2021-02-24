@@ -988,6 +988,32 @@ MonoBehaviour:
   currentHealth: 0
   currentStamina: 0
   currentMana: 0
+--- !u!114 &886086287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886086285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797455e55b0286547a5a9b3a12d3f20f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sr: {fileID: 886086288}
+  animator: {fileID: 886086289}
+--- !u!212 &886086288 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5135556660627546147, guid: 763376c793f0b1b4e822bd5970942b9d,
+    type: 3}
+  m_PrefabInstance: {fileID: 5135556660957821618}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &886086289 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5135556660627546144, guid: 763376c793f0b1b4e822bd5970942b9d,
+    type: 3}
+  m_PrefabInstance: {fileID: 5135556660957821618}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1342048467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1803,9 +1829,24 @@ PrefabInstance:
       objectReference: {fileID: 640135498}
     - target: {fileID: 5135556660627546172, guid: 763376c793f0b1b4e822bd5970942b9d,
         type: 3}
+      propertyPath: pa
+      value: 
+      objectReference: {fileID: 886086287}
+    - target: {fileID: 5135556660627546172, guid: 763376c793f0b1b4e822bd5970942b9d,
+        type: 3}
       propertyPath: sb
       value: 
       objectReference: {fileID: 1894533392}
+    - target: {fileID: 5135556660627546172, guid: 763376c793f0b1b4e822bd5970942b9d,
+        type: 3}
+      propertyPath: playerStatus
+      value: 
+      objectReference: {fileID: 886086286}
+    - target: {fileID: 5135556660627546172, guid: 763376c793f0b1b4e822bd5970942b9d,
+        type: 3}
+      propertyPath: playerAnimations
+      value: 
+      objectReference: {fileID: 886086287}
     - target: {fileID: 5135556660627546175, guid: 763376c793f0b1b4e822bd5970942b9d,
         type: 3}
       propertyPath: m_Name
