@@ -31,7 +31,7 @@ namespace TwoD
         // Update is called once per frame
         void Update()
         {
-            move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
             playerAnimations.Direction(move);
             Sprint();
         }
