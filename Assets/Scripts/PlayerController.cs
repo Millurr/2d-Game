@@ -34,6 +34,12 @@ namespace TwoD
             move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
             playerAnimations.Direction(move);
             Sprint();
+
+            if (Input.GetButtonDown("Fire1") && playerStatus.GetStamina() > 0)
+            {
+                playerAnimations.Attack();
+                playerStatus.LoseStamina(20 * playerStatus.enduranceMultiplier);
+            }
         }
 
         void FixedUpdate()

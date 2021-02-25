@@ -49,10 +49,10 @@ namespace TwoD
                 UseMana(10 * intelegenceMultiplier);
             }
 
-            if (Input.GetKeyUp(KeyCode.LeftShift))
+            if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetButtonUp("Fire1"))
             {
                 sprintCoolDown = 2f;
-                isCoolingDown = true;
+                SetCoolDown(true);
             }
 
             if (!isCoolingDown && !Input.GetKey(KeyCode.LeftShift))
@@ -64,9 +64,14 @@ namespace TwoD
                 sprintCoolDown -= Time.deltaTime;
                 if (sprintCoolDown <= 0)
                 {
-                    isCoolingDown = false;
+                    SetCoolDown(false);
                 }
             }
+        }
+
+        void SetCoolDown(bool coolDown)
+        {
+            isCoolingDown = coolDown;
         }
 
         void GainStamina(float gain)
@@ -76,7 +81,6 @@ namespace TwoD
                 currentStamina += gain;
                 sb.SetStamina(currentStamina);
             }
-
         }
 
         public float LoseStamina(float loss)

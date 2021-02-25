@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TwoD
 {
-    public enum IdleDirections
+    public enum CurrentDirections
     {
         LEFT,
         RIGHT,
@@ -15,7 +15,7 @@ namespace TwoD
     {
         public SpriteRenderer sr;
 
-        IdleDirections idleDir = IdleDirections.DOWN;
+        CurrentDirections currDir = CurrentDirections.DOWN;
 
         public Animator animator;
 
@@ -23,7 +23,7 @@ namespace TwoD
         {
             LookAtDirection(move);
             Debug.Log(move);
-            SetIdleDirections();
+            SetCurrentDirection();
         }
 
         public void Sprint(float mag)
@@ -38,9 +38,9 @@ namespace TwoD
             }
         }
 
-        public void Attack(bool attack)
+        public void Attack()
         {
-
+            animator.SetTrigger("Attack");
         }
 
         // Rotate the character depending on if it's moving left or right
@@ -56,12 +56,12 @@ namespace TwoD
 
             if (move.y > 0)
             {
-                idleDir = IdleDirections.UP;
+                currDir = CurrentDirections.UP;
             }
 
             if (move.y < 0)
             {
-                idleDir = IdleDirections.DOWN;
+                currDir = CurrentDirections.DOWN;
             }
 
             if (move.x < 0)
@@ -75,33 +75,33 @@ namespace TwoD
                     sr.flipX = false;
                 }
 
-                idleDir = IdleDirections.LEFT;
+                currDir = CurrentDirections.LEFT;
                 animator.SetFloat("Horizontal", move.x);
             }
 
             if (move.x > 0)
             {
-                idleDir = IdleDirections.RIGHT;
+                currDir = CurrentDirections.RIGHT;
                 animator.SetFloat("Horizontal", move.x);
             }
         }
 
         // Determines which direction the character will face when coming to a stop
-        void SetIdleDirections()
+        void SetCurrentDirection()
         {
-            switch (idleDir)
+            switch (currDir)
             {
-                case IdleDirections.UP:
+                case CurrentDirections.UP:
                     animator.SetFloat("FacingDir", 2f);
                     break;
-                case IdleDirections.DOWN:
+                case CurrentDirections.DOWN:
                     animator.SetFloat("FacingDir", 0f);
                     break;
-                case IdleDirections.LEFT:
+                case CurrentDirections.LEFT:
                     sr.flipX = true;
                     animator.SetFloat("FacingDir", 1f);
                     break;
-                case IdleDirections.RIGHT:
+                case CurrentDirections.RIGHT:
                     sr.flipX = false;
                     animator.SetFloat("FacingDir", 1f);
                     break;
