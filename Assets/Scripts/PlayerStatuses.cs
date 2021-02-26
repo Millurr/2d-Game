@@ -30,38 +30,19 @@ namespace TwoD
         {
             hb.SetMaxHealth(maxHealth);
             sb.SetMaxStamina(maxStamina);
-            mb.SetMaxMana(maxMana);
             currentHealth = maxHealth;
             currentStamina = maxStamina;
-            currentMana = maxMana;
         }
 
-        // Update is called once per frame
-        void Update()
+        private void FixedUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                TakeDamage(20);
-            }
-
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                UseMana(10 * intelegenceMultiplier);
-            }
-
-            if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetButtonUp("Fire1"))
-            {
-                sprintCoolDown = 2f;
-                SetCoolDown(true);
-            }
-
-            if (!isCoolingDown && !Input.GetKey(KeyCode.LeftShift))
+            if (!isCoolingDown)
             {
                 GainStamina(.1f);
             }
             else
             {
-                sprintCoolDown -= Time.deltaTime;
+                sprintCoolDown -= Time.fixedDeltaTime;
                 if (sprintCoolDown <= 0)
                 {
                     SetCoolDown(false);
@@ -85,6 +66,9 @@ namespace TwoD
 
         public float LoseStamina(float loss)
         {
+            sprintCoolDown = 2f;
+            SetCoolDown(true);
+
             if (currentStamina >= 0f)
             {
                 currentStamina -= loss;

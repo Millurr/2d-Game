@@ -19,6 +19,7 @@ namespace TwoD
 
         public PlayerStatuses playerStatus;
         public PlayerAnimations playerAnimations;
+        public PlayerActions playerActions;
 
         Vector2 move;
 
@@ -31,15 +32,21 @@ namespace TwoD
         // Update is called once per frame
         void Update()
         {
-            move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
-            playerAnimations.Direction(move);
-            Sprint();
+            
 
-            if (Input.GetButtonDown("Fire1") && playerStatus.GetStamina() > 0)
+            if (!playerAnimations.IsAttacking())
             {
-                playerAnimations.Attack();
-                playerStatus.LoseStamina(20 * playerStatus.enduranceMultiplier);
+                move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+                Attack();
             }
+            else
+            {
+                move = new Vector2(0, 0);
+            }
+
+            playerAnimations.Direction(move);
+
+            Sprint();
         }
 
         void FixedUpdate()
@@ -50,6 +57,16 @@ namespace TwoD
         void MoveCharacter()
         {
             controller.Move(move * speed * Time.fixedDeltaTime);
+        }
+
+        void Attack()
+        {
+            if (Input.GetButtonDown("Fire1") && playerStatus.GetStamina() > 0)
+            {
+                playerAnimations.Attack();
+                playerStatus.LoseStamina(20 * playerStatus.enduranceMultiplier);
+                playerActions.Attack(10);
+            }
         }
 
         void Sprint()

@@ -22,7 +22,6 @@ namespace TwoD
         public void Direction(Vector2 move)
         {
             LookAtDirection(move);
-            Debug.Log(move);
             SetCurrentDirection();
         }
 
@@ -43,16 +42,20 @@ namespace TwoD
             animator.SetTrigger("Attack");
         }
 
+        public bool IsAttacking()
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Unarmed_Attack"))
+            {
+                return true;
+            }
+            return false;
+        }
+
         // Rotate the character depending on if it's moving left or right
         void LookAtDirection(Vector2 move)
         {
             animator.SetFloat("Vertical", move.y);
             animator.SetFloat("Speed", move.sqrMagnitude);
-
-            if (move.x > -1f && sr.flipX == true)
-            {
-                sr.flipX = false;
-            }
 
             if (move.y > 0)
             {
@@ -66,15 +69,6 @@ namespace TwoD
 
             if (move.x < 0)
             {
-                if (move.y.Equals(0f))
-                {
-                    sr.flipX = true;
-                }
-                else
-                {
-                    sr.flipX = false;
-                }
-
                 currDir = CurrentDirections.LEFT;
                 animator.SetFloat("Horizontal", move.x);
             }
@@ -98,11 +92,9 @@ namespace TwoD
                     animator.SetFloat("FacingDir", 0f);
                     break;
                 case CurrentDirections.LEFT:
-                    sr.flipX = true;
-                    animator.SetFloat("FacingDir", 1f);
+                    animator.SetFloat("FacingDir", 3f);
                     break;
                 case CurrentDirections.RIGHT:
-                    sr.flipX = false;
                     animator.SetFloat("FacingDir", 1f);
                     break;
                 default:
