@@ -60,26 +60,18 @@ namespace TwoD
 
             if (move.x < 0)
             {
-                animator.SetFloat("Vertical", move.y);
-                animator.SetFloat("Horizontal", move.x);
                 currDir = CurrentDirections.LEFT;
             }
             else if (move.x > 0)
             {
-                animator.SetFloat("Vertical", move.y);
-                animator.SetFloat("Horizontal", move.x);
                 currDir = CurrentDirections.RIGHT;
             }
             else if (move.y > 0)
             {
-                animator.SetFloat("Vertical", move.y);
-                animator.SetFloat("Horizontal", move.x);
                 currDir = CurrentDirections.UP;
             }
             else if (move.y < 0)
             {
-                animator.SetFloat("Vertical", move.y);
-                animator.SetFloat("Horizontal", move.x);
                 currDir = CurrentDirections.DOWN;
             }
             
@@ -106,10 +98,14 @@ namespace TwoD
                     hs.SwitchHair(3);
                     animator.SetFloat("FacingDir", 3f);
                     break;
-                
                 default:
                     break;
             }
+        }
+
+        public CurrentDirections GetCurrentDirection()
+        {
+            return currDir;
         }
     }
 }
