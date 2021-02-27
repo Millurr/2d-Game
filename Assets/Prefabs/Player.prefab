@@ -105,7 +105,6 @@ GameObject:
   - component: {fileID: 5135556660627546146}
   - component: {fileID: 5135556660627546173}
   - component: {fileID: 5135556660627546172}
-  - component: {fileID: 5135556660627546144}
   - component: {fileID: 5135556660627546147}
   m_Layer: 0
   m_Name: Player
@@ -160,31 +159,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e0cc698a6f1fb4ebfa56ba2208e50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  stamina: 100
-  speed: 7
-  sr: {fileID: 5135556660627546147}
-  animator: {fileID: 5135556660627546144}
-  LookAtObj: {fileID: 0}
---- !u!95 &5135556660627546144
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5135556660627546175}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5ad1845c3ebde0e4997ef74d48af9e5d, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  walkSpeed: 5
+  sprintSpeed: 7
+  playerStatus: {fileID: 0}
+  playerAnimations: {fileID: 0}
+  playerActions: {fileID: 0}
 --- !u!212 &5135556660627546147
 SpriteRenderer:
   m_ObjectHideFlags: 0

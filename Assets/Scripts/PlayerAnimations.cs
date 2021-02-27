@@ -14,6 +14,7 @@ namespace TwoD
     public class PlayerAnimations : MonoBehaviour
     {
         public SpriteRenderer sr;
+        public HairSwitcher hs;
 
         CurrentDirections currDir = CurrentDirections.DOWN;
 
@@ -54,30 +55,34 @@ namespace TwoD
         // Rotate the character depending on if it's moving left or right
         void LookAtDirection(Vector2 move)
         {
-            animator.SetFloat("Vertical", move.y);
+            
             animator.SetFloat("Speed", move.sqrMagnitude);
-
-            if (move.y > 0)
-            {
-                currDir = CurrentDirections.UP;
-            }
-
-            if (move.y < 0)
-            {
-                currDir = CurrentDirections.DOWN;
-            }
 
             if (move.x < 0)
             {
+                animator.SetFloat("Vertical", move.y);
+                animator.SetFloat("Horizontal", move.x);
                 currDir = CurrentDirections.LEFT;
-                animator.SetFloat("Horizontal", move.x);
             }
-
-            if (move.x > 0)
+            else if (move.x > 0)
             {
-                currDir = CurrentDirections.RIGHT;
+                animator.SetFloat("Vertical", move.y);
                 animator.SetFloat("Horizontal", move.x);
+                currDir = CurrentDirections.RIGHT;
             }
+            else if (move.y > 0)
+            {
+                animator.SetFloat("Vertical", move.y);
+                animator.SetFloat("Horizontal", move.x);
+                currDir = CurrentDirections.UP;
+            }
+            else if (move.y < 0)
+            {
+                animator.SetFloat("Vertical", move.y);
+                animator.SetFloat("Horizontal", move.x);
+                currDir = CurrentDirections.DOWN;
+            }
+            
         }
 
         // Determines which direction the character will face when coming to a stop
@@ -85,18 +90,23 @@ namespace TwoD
         {
             switch (currDir)
             {
-                case CurrentDirections.UP:
-                    animator.SetFloat("FacingDir", 2f);
-                    break;
                 case CurrentDirections.DOWN:
+                    hs.SwitchHair(0);
                     animator.SetFloat("FacingDir", 0f);
                     break;
-                case CurrentDirections.LEFT:
-                    animator.SetFloat("FacingDir", 3f);
-                    break;
                 case CurrentDirections.RIGHT:
+                    hs.SwitchHair(1);
                     animator.SetFloat("FacingDir", 1f);
                     break;
+                case CurrentDirections.UP:
+                    hs.SwitchHair(2);
+                    animator.SetFloat("FacingDir", 2f);
+                    break;
+                case CurrentDirections.LEFT:
+                    hs.SwitchHair(3);
+                    animator.SetFloat("FacingDir", 3f);
+                    break;
+                
                 default:
                     break;
             }
