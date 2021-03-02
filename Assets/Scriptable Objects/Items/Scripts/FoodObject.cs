@@ -1,0 +1,16 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace TwoD
+{
+    [CreateAssetMenu(fileName = "New Food Object", menuName = "Inventory System/Items/Food")]
+    public class FoodObject : ItemObject
+    {
+        public int restoreHealthValue;
+        void Awake()
+        {
+            type = ItemType.Food;
+        }
+    }
+}

@@ -8,6 +8,8 @@ namespace TwoD
   
     public class PlayerController : MonoBehaviour
     {
+
+        public InventoryObject inventory;
         
         float speed = 5;
 
@@ -82,6 +84,21 @@ namespace TwoD
                 playerAnimations.Sprint(controller.velocity.magnitude);
                 speed = walkSpeed;
             }
+        }
+
+        public void OnTriggerEnter(Collider other)
+        {
+            var item = other.GetComponent<Item>();
+            if (item)
+            {
+                inventory.AddItem(item.item, 1);
+                Destroy(other.gameObject);
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            // inventory.Container.Clear();
         }
     }
 }
