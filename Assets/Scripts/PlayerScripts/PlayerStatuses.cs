@@ -2,107 +2,104 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TwoD
+public class PlayerStatuses : MonoBehaviour
 {
-    public class PlayerStatuses : MonoBehaviour
+
+    public HealthBar hb;
+    public StaminaBar sb;
+    public ManaBar mb;
+
+    public float sprintCoolDown = 2f;
+    bool isCoolingDown = false;
+
+    public float maxHealth;
+    public float maxStamina;
+    public float maxMana;
+
+    public float enduranceMultiplier = 1;
+    public float intelegenceMultiplier = 1;
+
+    public float currentHealth;
+    public float currentStamina;
+    public float currentMana;
+
+    // Start is called before the first frame update
+    void Start()
     {
+        hb.SetMaxHealth(maxHealth);
+        sb.SetMaxStamina(maxStamina);
+        currentHealth = maxHealth;
+        currentStamina = maxStamina;
+    }
 
-        public HealthBar hb;
-        public StaminaBar sb;
-        public ManaBar mb;
-
-        public float sprintCoolDown = 2f;
-        bool isCoolingDown = false;
-
-        public float maxHealth;
-        public float maxStamina;
-        public float maxMana;
-
-        public float enduranceMultiplier = 1;
-        public float intelegenceMultiplier = 1;
-
-        public float currentHealth;
-        public float currentStamina;
-        public float currentMana;
-
-        // Start is called before the first frame update
-        void Start()
+    private void FixedUpdate()
+    {
+        if (!isCoolingDown)
         {
-            hb.SetMaxHealth(maxHealth);
-            sb.SetMaxStamina(maxStamina);
-            currentHealth = maxHealth;
-            currentStamina = maxStamina;
+            GainStamina(.1f);
         }
-
-        private void FixedUpdate()
+        else
         {
-            if (!isCoolingDown)
+            sprintCoolDown -= Time.fixedDeltaTime;
+            if (sprintCoolDown <= 0)
             {
-                GainStamina(.1f);
-            }
-            else
-            {
-                sprintCoolDown -= Time.fixedDeltaTime;
-                if (sprintCoolDown <= 0)
-                {
-                    SetCoolDown(false);
-                }
+                SetCoolDown(false);
             }
         }
+    }
 
-        void SetCoolDown(bool coolDown)
+    void SetCoolDown(bool coolDown)
+    {
+        isCoolingDown = coolDown;
+    }
+
+    void GainStamina(float gain)
+    {
+        if (currentStamina <= 100f)
         {
-            isCoolingDown = coolDown;
+            currentStamina += gain;
+            sb.SetStamina(currentStamina);
         }
+    }
 
-        void GainStamina(float gain)
+    public float LoseStamina(float loss)
+    {
+        sprintCoolDown = 2f;
+        SetCoolDown(true);
+
+        if (currentStamina >= 0f)
         {
-            if (currentStamina <= 100f)
-            {
-                currentStamina += gain;
-                sb.SetStamina(currentStamina);
-            }
+            currentStamina -= loss;
+            sb.SetStamina(currentStamina);
         }
+        return currentStamina;
+    }
 
-        public float LoseStamina(float loss)
-        {
-            sprintCoolDown = 2f;
-            SetCoolDown(true);
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
 
-            if (currentStamina >= 0f)
-            {
-                currentStamina -= loss;
-                sb.SetStamina(currentStamina);
-            }
-            return currentStamina;
-        }
+        hb.SetHealth(currentHealth);
+    }
 
-        public void TakeDamage(float damage)
-        {
-            currentHealth -= damage;
+    public void UseMana(float mana)
+    {
+        currentMana -= mana;
+        mb.SetMana(currentMana);
+    }
 
-            hb.SetHealth(currentHealth);
-        }
+    public float GetHealth()
+    {
+        return currentHealth;
+    }
 
-        public void UseMana(float mana)
-        {
-            currentMana -= mana;
-            mb.SetMana(currentMana);
-        }
+    public float GetStamina()
+    {
+        return currentStamina;
+    }
 
-        public float GetHealth()
-        {
-            return currentHealth;
-        }
-
-        public float GetStamina()
-        {
-            return currentStamina;
-        }
-
-        public float GetMana()
-        {
-            return currentMana;
-        }
+    public float GetMana()
+    {
+        return currentMana;
     }
 }

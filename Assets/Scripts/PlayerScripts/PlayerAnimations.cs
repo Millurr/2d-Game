@@ -2,110 +2,107 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TwoD
+public enum CurrentDirections
 {
-    public enum CurrentDirections
+    DOWN,
+    RIGHT,
+    UP,
+    LEFT
+}
+public class PlayerAnimations : MonoBehaviour
+{
+    public SpriteRenderer sr;
+    public HairSwitcher hs;
+
+    CurrentDirections currDir = CurrentDirections.DOWN;
+
+    public Animator animator;
+
+    public void Direction(Vector2 move)
     {
-        DOWN,
-        RIGHT,
-        UP,
-        LEFT
+        LookAtDirection(move);
+        SetCurrentDirection();
     }
-    public class PlayerAnimations : MonoBehaviour
+
+    public void Sprint(float mag)
     {
-        public SpriteRenderer sr;
-        public HairSwitcher hs;
-
-        CurrentDirections currDir = CurrentDirections.DOWN;
-
-        public Animator animator;
-
-        public void Direction(Vector2 move)
+        if (mag < 6)
         {
-            LookAtDirection(move);
-            SetCurrentDirection();
+            animator.speed = 1f;
         }
-
-        public void Sprint(float mag)
+        else if (mag > 6)
         {
-            if (mag < 6)
-            {
-                animator.speed = 1f;
-            }
-            else if (mag > 6)
-            {
-                animator.speed = 2f;
-            }
+            animator.speed = 2f;
         }
+    }
 
-        public void Attack()
+    public void Attack()
+    {
+        animator.SetTrigger("Attack");
+    }
+
+    public bool IsAttacking()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Unarmed_Attack"))
         {
-            animator.SetTrigger("Attack");
+            return true;
         }
+        return false;
+    }
 
-        public bool IsAttacking()
-        {
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Unarmed_Attack"))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        // Rotate the character depending on if it's moving left or right
-        void LookAtDirection(Vector2 move)
-        {
+    // Rotate the character depending on if it's moving left or right
+    void LookAtDirection(Vector2 move)
+    {
             
-            animator.SetFloat("Speed", move.sqrMagnitude);
+        animator.SetFloat("Speed", move.sqrMagnitude);
 
-            if (move.x < 0)
-            {
-                currDir = CurrentDirections.LEFT;
-            }
-            else if (move.x > 0)
-            {
-                currDir = CurrentDirections.RIGHT;
-            }
-            else if (move.y > 0)
-            {
-                currDir = CurrentDirections.UP;
-            }
-            else if (move.y < 0)
-            {
-                currDir = CurrentDirections.DOWN;
-            }
+        if (move.x < 0)
+        {
+            currDir = CurrentDirections.LEFT;
+        }
+        else if (move.x > 0)
+        {
+            currDir = CurrentDirections.RIGHT;
+        }
+        else if (move.y > 0)
+        {
+            currDir = CurrentDirections.UP;
+        }
+        else if (move.y < 0)
+        {
+            currDir = CurrentDirections.DOWN;
+        }
             
-        }
+    }
 
-        // Determines which direction the character will face when coming to a stop
-        void SetCurrentDirection()
+    // Determines which direction the character will face when coming to a stop
+    void SetCurrentDirection()
+    {
+        switch (currDir)
         {
-            switch (currDir)
-            {
-                case CurrentDirections.DOWN:
-                    hs.SwitchHair(0);
-                    animator.SetFloat("FacingDir", 0f);
-                    break;
-                case CurrentDirections.RIGHT:
-                    hs.SwitchHair(1);
-                    animator.SetFloat("FacingDir", 1f);
-                    break;
-                case CurrentDirections.UP:
-                    hs.SwitchHair(2);
-                    animator.SetFloat("FacingDir", 2f);
-                    break;
-                case CurrentDirections.LEFT:
-                    hs.SwitchHair(3);
-                    animator.SetFloat("FacingDir", 3f);
-                    break;
-                default:
-                    break;
-            }
+            case CurrentDirections.DOWN:
+                hs.SwitchHair(0);
+                animator.SetFloat("FacingDir", 0f);
+                break;
+            case CurrentDirections.RIGHT:
+                hs.SwitchHair(1);
+                animator.SetFloat("FacingDir", 1f);
+                break;
+            case CurrentDirections.UP:
+                hs.SwitchHair(2);
+                animator.SetFloat("FacingDir", 2f);
+                break;
+            case CurrentDirections.LEFT:
+                hs.SwitchHair(3);
+                animator.SetFloat("FacingDir", 3f);
+                break;
+            default:
+                break;
         }
+    }
 
-        public CurrentDirections GetCurrentDirection()
-        {
-            return currDir;
-        }
+    public CurrentDirections GetCurrentDirection()
+    {
+        return currDir;
     }
 }
