@@ -11,25 +11,23 @@ namespace TwoD
         public float attackRange;
         public LayerMask enemyLayers;
         public PlayerAnimations pa;
-
-        // Values for damage
+        public StatsObject playerStats;
 
         public void Attack(float dmg)
         {
 
-            Debug.Log((int)pa.GetCurrentDirection());
-
             if (pa == null)
                 return;
 
-            Collider[] hitEnemies = Physics.OverlapSphere(attackPoints[(int)pa.GetCurrentDirection()].position, attackRange, enemyLayers);
+            // pa.GetCurrentDirection() gets the current direction the player is facing to postiong the hit sphere in the proper location
+            Collider[] hitEnemies = Physics.OverlapSphere(attackPoints[(int)pa.GetCurrentDirection()].position, playerStats.attackRange, enemyLayers);
 
             foreach (Collider enemy in hitEnemies)
             {
                 if (enemy == null)
                     return;
 
-                enemy.GetComponent<Enemy>().TakeDamage(20);
+                enemy.GetComponent<Enemy>().TakeDamage(playerStats.attackDamage);
             }
         }
 

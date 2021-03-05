@@ -17,9 +17,11 @@ namespace TwoD
         Character character;
         CharacterController controller;
 
-        public PlayerStatuses playerStatus;
+        public PlayerStatuses currentStatus;
         public PlayerAnimations playerAnimations;
         public PlayerActions playerActions;
+
+        public StatsObject playerStats;
 
         Vector2 move;
 
@@ -61,21 +63,21 @@ namespace TwoD
 
         void Attack()
         {
-            if (Input.GetButtonDown("Fire1") && playerStatus.GetStamina() > 0)
+            if (Input.GetButtonDown("Fire1") && currentStatus.GetStamina() > 0)
             {
                 playerAnimations.Attack();
-                playerStatus.LoseStamina(20 * playerStatus.enduranceMultiplier);
+                currentStatus.LoseStamina(20 * playerStats.enduranceBuff);
                 playerActions.Attack(10);
             }
         }
 
         void Sprint()
         {
-            if (Input.GetKey(KeyCode.LeftShift) && playerStatus.GetStamina() > 0 && move.sqrMagnitude > 0)
+            if (Input.GetKey(KeyCode.LeftShift) && currentStatus.GetStamina() > 0 && move.sqrMagnitude > 0)
             {
                 speed = sprintSpeed;
                 playerAnimations.Sprint(controller.velocity.magnitude);
-                playerStatus.LoseStamina(1 * playerStatus.enduranceMultiplier);
+                currentStatus.LoseStamina(1 * playerStats.enduranceBuff);
             }
             else
             {

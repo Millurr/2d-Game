@@ -9,25 +9,28 @@ namespace TwoD
 
         public HealthBar hb;
         public StaminaBar sb;
-        public ManaBar mb;
 
         public float sprintCoolDown = 2f;
         bool isCoolingDown = false;
 
-        public float maxHealth;
-        public float maxStamina;
-        public float maxMana;
+        float maxHealth;
+        float maxStamina;
 
-        public float enduranceMultiplier = 1;
-        public float intelegenceMultiplier = 1;
+        float enduranceMultiplier;
 
         public float currentHealth;
         public float currentStamina;
-        public float currentMana;
+
+        public StatsObject playerStats;
 
         // Start is called before the first frame update
         void Start()
         {
+            enduranceMultiplier = playerStats.enduranceBuff;
+
+            maxHealth = playerStats.health;
+            maxStamina = playerStats.stamina;
+
             hb.SetMaxHealth(maxHealth);
             sb.SetMaxStamina(maxStamina);
             currentHealth = maxHealth;
@@ -84,12 +87,6 @@ namespace TwoD
             hb.SetHealth(currentHealth);
         }
 
-        public void UseMana(float mana)
-        {
-            currentMana -= mana;
-            mb.SetMana(currentMana);
-        }
-
         public float GetHealth()
         {
             return currentHealth;
@@ -98,11 +95,6 @@ namespace TwoD
         public float GetStamina()
         {
             return currentStamina;
-        }
-
-        public float GetMana()
-        {
-            return currentMana;
         }
     }
 }

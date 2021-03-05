@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public int maxHealth = 100;
+    public float maxHealth = 100;
     public GameObject go;
-    int currentHealth;
+    float currentHealth;
     // Start is called before the first frame update
     void Start()
     {
         currentHealth = maxHealth;
     }
     
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHealth -= damage;
 
